@@ -3,6 +3,7 @@ import React from 'react'
 
 import RenderTag from '../shared/RenderTag';
 import Metric from '../shared/Metric';
+import { getTimestamp , formatAndDivideNumber } from '@/lib/utils'; 
 
 interface QuestionProps {
     _id: string;
@@ -22,13 +23,13 @@ interface QuestionProps {
     createdAt: Date;
 }
 
-const QuestionCard = ({ _id, title, tags, author, upvotes, views, answers, createdAt }) => {
+const QuestionCard = ({ _id, title, tags, author, upvotes, views, answers, createdAt }: QuestionProps) => {
 	return (
 		<div className='card-wrapper rounded-[10px] p-9 sm:px-11'>
 			<div className='flex flex-col-reverse items-start justify-between gap-5 sm:flex-row'>
 				<div>
 					<span className='subtle-regular text-dark400_light700 line-clamp-1 flex sm:hidden'>
-						{String(createdAt)}
+						{getTimestamp(createdAt)}
 					</span>
 					<Link href={`/question/${_id}`}>
 						<h3 className='sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1'>
@@ -51,7 +52,7 @@ const QuestionCard = ({ _id, title, tags, author, upvotes, views, answers, creat
 					imgUrl="assets/icons/avatar.svg"
 					alt="User"
 					value={author.name}
-					title=" - asked 1 hour ago"
+					title={` - asked ${getTimestamp(createdAt)}`}
 					href={`/profile/${author._id}`}
 					isAuthor
 					textStyles="body-medium text-dark400_light700"
@@ -59,21 +60,21 @@ const QuestionCard = ({ _id, title, tags, author, upvotes, views, answers, creat
 				<Metric
 					imgUrl={'/assets/icons/like.svg'}
 					alt="upvotes"
-					value={upvotes}
+					value={formatAndDivideNumber(upvotes)}
 					title=" Votes"
 					textStyles="small-medium text-dark400_light800"
 				/>
 				<Metric
 					imgUrl={'/assets/icons/message.svg'}
 					alt="messege"
-					value={answers.length}
+					value={formatAndDivideNumber(answers.length)}
 					title=" Answers"
 					textStyles="small-medium text-dark400_light800"
 				/>
 				<Metric
 					imgUrl={'/assets/icons/eye.svg'}
 					alt="eye"
-					value={views}
+					value={formatAndDivideNumber(views)}
 					title=" Views"
 					textStyles="small-medium text-dark400_light800"
 				/>

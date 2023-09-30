@@ -20,7 +20,7 @@ const questions = [
 	  },
 	  upvotes: 1500,
 	  views: 500552,
-	  answers: [],
+	  answers: [1,2,3],
 	  createdAt: new Date('2023-09-01T12:00:00.000Z'),
 	},
 	{
@@ -33,9 +33,9 @@ const questions = [
 			picture: 'jane-smith.jpg',
 	  },
 	  upvotes: 5,
-	  views: 50,
+	  views: 50000,
 	  answers: [],
-	  createdAt: new Date('2021-09-02T10:30:00.000Z'),
+	  createdAt: new Date('2023-09-02T10:30:00.000Z'),
 	},
 ];
  
