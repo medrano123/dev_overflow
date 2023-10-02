@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import Image from 'next/image';
 import { useForm } from "react-hook-form"
+import { useRouter, usePathname } from 'next/navigation';
+
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -14,10 +16,15 @@ import { Button } from "../ui/button"
 import { QuestionsSchema } from "@/lib/validations"
 import { createQuestion } from '@/lib/actions/question.actions';
 
+interface Props {
+  mongoUserId: string;
+}
 
-const Question = () => {
+const Question = ({ mongoUserId }: Props) => {
 	const type: any = "Create"
 	const editorRef = useRef(null);
+	const router = useRouter();
+	const pathname = usePathname();
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	// 1. Define your form.
@@ -34,7 +41,17 @@ const Question = () => {
 	async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
 		setIsSubmitting(true)
 		try {
-			await createQuestion({})
+
+			await createQuestion({
+				title: values.title,
+				content: values.explanation,
+				tags: values.tags,
+				author: JSON.parse(mongoUserId),
+				path: pathname,
+			});
+        
+			// navigate to home page
+			router.push('/');
 		} catch (error) {
             
 		} finally {
