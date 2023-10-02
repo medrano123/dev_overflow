@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from '../ui/badge';
 import { Button } from "../ui/button"
 import { QuestionsSchema } from "@/lib/validations"
+import { createQuestion } from '@/lib/actions/question.actions';
 
 
 const Question = () => {
@@ -30,12 +31,10 @@ const Question = () => {
 	})
     
 	// 2. Define a submit handler.
-	function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+	async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
 		setIsSubmitting(true)
 		try {
-			// make async call to our api to create a question
-			// contain all form data
-			// navigate to home
+			await createQuestion({})
 		} catch (error) {
             
 		} finally {
@@ -110,6 +109,8 @@ const Question = () => {
 										// @ts-ignore
 										editorRef.current = editor
 									}}
+									onBlur={field.onBlur}
+									onEditorChange={(content) => field.onChange(content)}
 									initialValue=""
 									init={{
 										height: 350,
