@@ -6,6 +6,7 @@ import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
 import Filter from '@/components/shared/search/Filter'
 import { UserFilters } from '@/constants/filters'
 import { getAllUsers } from '@/lib/actions/user.actions'
+import UserCard from '@/components/cards/UserCard'
 
 const Page = async () => {
 	const result = await getAllUsers({})
@@ -28,11 +29,9 @@ const Page = async () => {
 				/>
 			</div>
 			<section className='mt-12 flex flex-wrap gap-4'>
-				{result.users.length > 2 ? (
+				{result.users.length > 0 ? (
 					result.users.map((user) => (
-						<div key={user.name}>
-							{user.name}
-						</div>
+						<UserCard key={user._id} user={user}/>
 					))
 				) : (
 					<div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'>
