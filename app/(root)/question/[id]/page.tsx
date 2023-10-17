@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getQuestionById } from '@/lib/actions/question.actions'
 import ParseHTML from '@/components/shared/ParseHTML'
 import Metric from '@/components/shared/Metric'
+import RenderTag from '@/components/shared/RenderTag'
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 
 
@@ -60,8 +61,18 @@ const page = async ({ params, searchParams }) => {
 			</div>
 			<ParseHTML
 				data={result.content}
-
 			/>
+			<div className="mt-8 flex flex-wrap gap-2">
+				{result.tags.map((tag: any) => (
+					<RenderTag 
+						key={tag._id}
+						_id={tag._id}
+						name={tag.name}
+						showCount={false}
+					/>
+				))}
+			</div>
+
 		</>
 	)
 }
