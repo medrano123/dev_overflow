@@ -11,6 +11,7 @@ import { useRouter, usePathname } from 'next/navigation';
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useTheme } from '@/context/ThemeProvider';
 import { Badge } from '../ui/badge';
 import { Button } from "../ui/button"
 import { QuestionsSchema } from "@/lib/validations"
@@ -25,6 +26,8 @@ const Question = ({ mongoUserId }: Props) => {
 	const editorRef = useRef(null);
 	const router = useRouter();
 	const pathname = usePathname();
+	const { mode } = useTheme();
+
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	// 1. Define your form.
@@ -141,7 +144,9 @@ const Question = ({ mongoUserId }: Props) => {
                                         'undo redo | ' +
                                         'codesample | bold italic forecolor | alignleft aligncenter |' +
                                         'alignright alignjustify | bullist numlist',
-										content_style: 'body { font-family:Inter; font-size:16px }'
+										content_style: 'body { font-family:Inter; font-size:16px }',
+										skin: mode === 'dark' ? 'oxide-dark' : 'oxide',
+										content_css: mode === 'dark' ? 'dark' : 'light', 
 									}}
 								/>
 							</FormControl>

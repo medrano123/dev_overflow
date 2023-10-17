@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { getQuestionById } from '@/lib/actions/question.actions'
 import ParseHTML from '@/components/shared/ParseHTML'
 import Metric from '@/components/shared/Metric'
+import Answer from '@/components/forms/Answer'
 import RenderTag from '@/components/shared/RenderTag'
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
 
@@ -72,7 +73,7 @@ const page = async ({ params, searchParams }) => {
 					/>
 				))}
 			</div>
-
+			<Answer />
 		</>
 	)
 }
