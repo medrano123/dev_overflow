@@ -8,6 +8,7 @@ import Metric from '@/components/shared/Metric'
 import Answer from '@/components/forms/Answer'
 import RenderTag from '@/components/shared/RenderTag'
 import { formatAndDivideNumber, getTimestamp } from '@/lib/utils';
+import AllAnswers from '@/components/shared/AllAnswers'
 import { getUserById } from '@/lib/actions/user.actions'
 
 
@@ -18,6 +19,7 @@ const page = async ({ params, searchParams }) => {
 	if(clerkId){
 		mongoUser = await getUserById({userId: clerkId});
 	}
+	
 	return (
 		<>
 			<div className="flex-start w-full flex-col">
@@ -79,6 +81,12 @@ const page = async ({ params, searchParams }) => {
 					/>
 				))}
 			</div>
+			<AllAnswers 
+				questionId={result._id}
+				userId={JSON.stringify(mongoUser._id)}
+				totalAnswers={result.answers.length}
+			/>
+
 			<Answer
 				question={result.content}
 				questionId={JSON.stringify(result._id)}
