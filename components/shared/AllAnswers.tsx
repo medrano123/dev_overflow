@@ -59,7 +59,8 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
 										upvotes={answer.upvotes.length}
 										hasupVoted={answer.upvotes.includes(userId)}
 										downvotes={answer.downvotes.length}
-										hasdownVoted={answer.downvotes.includes(userId)} />
+										hasdownVoted={answer.downvotes.includes(userId)}
+									/>
 								</div>
 							</div>
 						</div>

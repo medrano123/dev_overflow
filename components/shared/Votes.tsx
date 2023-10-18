@@ -2,6 +2,11 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { upvoteQuestion, downvoteQuestion } from "@/lib/actions/question.actions";
+import { upvoteAnswer, downvoteAnswer } from "@/lib/actions/answer.actions";
+
+// import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
+
 
 import { formatAndDivideNumber } from "@/lib/utils";
 
@@ -15,14 +20,57 @@ interface Props {
     hasdownVoted: boolean;
     hasSaved?: boolean;
 }
-const handleVote = async (action: string) => {
-    
-}
 
-const handleSave = async () => {
-}
+const Votes = ({ type, itemId, userId, upvotes, hasupVoted, downvotes, hasdownVoted, hasSaved }: Props) => {
+	const pathname = usePathname();
+	const router = useRouter();
 
-const Votes = ({ type, itemId, userId, upvotes, hasupVoted, downvotes, hasdownVoted, hasSaved }: Props) => {	
+	const handleVote = async (action: string) => {
+		if(!userId) return
+        
+		if(action === 'upvote') {
+			if(type === 'Question') {
+				await upvoteQuestion({ 
+					questionId: JSON.parse(itemId),
+					userId: JSON.parse(userId),
+					hasupVoted,
+					hasdownVoted,
+					path: pathname,
+				})
+			} else if (type === 'Answer') {
+				// await upvoteAnswer({ 
+				// 	answerId: JSON.parse(itemId),
+				// 	userId: JSON.parse(userId),
+				// 	hasupVoted,
+				// 	hasdownVoted,
+				// 	path: pathname,
+				// })
+			}
+            
+		} 
+		if (action === 'downvote') {
+			if(type === 'Question') {
+				await downvoteQuestion({ 
+					questionId: JSON.parse(itemId),
+					userId: JSON.parse(userId),
+					hasupVoted,
+					hasdownVoted,
+					path: pathname,
+				})
+			} else if (type === 'Answer') {
+				// await downvoteAnswer({ 
+				// 	answerId: JSON.parse(itemId),
+				// 	userId: JSON.parse(userId),
+				// 	hasupVoted,
+				// 	hasdownVoted,
+				// 	path: pathname,
+				// })
+			}
+	    }
+	}
+	const handleSave = async () => {
+
+	}
 	return (
 		<div className="flex gap-5">
 			<div className="flex-center gap-2.5">
