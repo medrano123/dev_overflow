@@ -6,10 +6,10 @@ import { connectToDatabase } from "../mongoose";
 import Answer from "@/database/answer.model";
 import Question from "@/database/question.model";
 
-export async function createAnswer({ params }: CreateAnswerParams){
+export async function createAnswer(params: CreateAnswerParams) {
 	try {
 		connectToDatabase()
-		const { content, author, path, question } = params;
+		const { content, author, question, path } = params;
 		const newAnswer = await Answer.create({ content, author, question });
 
 		// Add the answer to the question's answers array

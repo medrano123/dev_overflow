@@ -11,14 +11,42 @@ import { Button } from '../ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { useForm } from 'react-hook-form'
 import { AnswerSchema } from '@/lib/validations'
-const Answer = () => {
+import { createAnswer } from '@/lib/actions/answer.actions'
+
+interface Props {
+    question: string;
+    questionId: string;
+    authorId: string;
+}
+
+  
+const Answer = ({ question, questionId, authorId }: Props) => {
 	const editorRef = useRef(null)
 	const { mode } = useTheme();
 	const pathname = usePathname();
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
-	const handleCreateAnswer = () => {
+	const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
+		setIsSubmitting(true)
+		try {
+			await createAnswer({
+				content: values.answer,
+				author: JSON.parse(authorId),
+				question: JSON.parse(questionId),
+				path: pathname,
+			});
         
+			form.reset();
+			if(editorRef.current) {
+				const editor = editorRef.current as any;
+        
+				editor.setContent('');
+			}
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIsSubmitting(false)
+		}
 	}
 	const form = useForm<z.infer<typeof AnswerSchema>>({
 		resolver: zodResolver(AnswerSchema),
