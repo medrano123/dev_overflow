@@ -4,6 +4,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { upvoteQuestion, downvoteQuestion } from "@/lib/actions/question.actions";
 import { upvoteAnswer, downvoteAnswer } from "@/lib/actions/answer.actions";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 
 // import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 
@@ -77,6 +78,14 @@ const Votes = ({ type, itemId, userId, upvotes, hasupVoted, downvotes, hasdownVo
 			path: pathname,
 		})
 	}
+
+	useEffect(() => {
+		viewQuestion({
+			questionId: JSON.parse(itemId),
+			userId: userId ? JSON.parse(userId) : undefined,
+		})
+	}, [itemId, userId, pathname, router]);
+    
 	return (
 		<div className="flex gap-5">
 			<div className="flex-center gap-2.5">
