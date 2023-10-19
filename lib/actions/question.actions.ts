@@ -61,7 +61,7 @@ export async function getAllQuestions( params : GetQuestionsParams) {
 		console.log(error)
 		throw Error
 	}
-} 
+}
 
 export async function getQuestionById( params: GetQuestionByIdParams ){
 	try {
