@@ -1,7 +1,7 @@
 "use server"
 import { revalidatePath } from "next/cache";
 import { connectToDatabase } from "../mongoose"
-import { CreateUserParams, DeleteUserParams, UpdateUserParams, GetAllUsersParams} from "./shared.types";
+import { CreateUserParams, DeleteUserParams, UpdateUserParams, GetAllUsersParams, ToggleSaveQuestionParams} from "./shared.types";
 import User from "@/database/user.model";
 import Question from "@/database/question.model";
 
@@ -88,6 +88,37 @@ export async function getAllUsers(params: GetAllUsersParams) {
 	  	throw error;
 	}
 }
+
+export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
+	try {
+		connectToDatabase();
+		const { userId, questionId, path } = params; 
+		const user = await User.findById(userId);
+		if(!user) throw new Error('User Not Found');
+
+		const isQuestionSaved = user.saved.includes(questionId);
+
+		if(isQuestionSaved) {
+			// remove it from saved list
+			await User.findByIdAndUpdate(userId,
+				{ $pull: { saved: questionId }},
+				{ new: true }
+			)
+		} else {
+			// add to saved
+			await User.findByIdAndUpdate(userId,
+				{ $addToSet: { saved: questionId }},
+				{ new: true }
+			)
+		}
+
+		revalidatePath(path)
+	} catch (error) {
+		console.log(error);
+	  	throw error;
+	}
+}
+
 
 // export async function getAllUsers(params: GetAllUsersParams) {
 // 	try {

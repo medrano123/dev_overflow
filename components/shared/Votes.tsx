@@ -9,6 +9,7 @@ import { upvoteAnswer, downvoteAnswer } from "@/lib/actions/answer.actions";
 
 
 import { formatAndDivideNumber } from "@/lib/utils";
+import { toggleSaveQuestion } from "@/lib/actions/user.actions";
 
 interface Props {
     type: string;
@@ -68,8 +69,13 @@ const Votes = ({ type, itemId, userId, upvotes, hasupVoted, downvotes, hasdownVo
 			}
 	    }
 	}
+    
 	const handleSave = async () => {
-
+		await toggleSaveQuestion({
+			userId: JSON.parse(userId),
+			questionId: JSON.parse(itemId),
+			path: pathname,
+		})
 	}
 	return (
 		<div className="flex gap-5">
