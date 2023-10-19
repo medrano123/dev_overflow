@@ -38,13 +38,13 @@ const Votes = ({ type, itemId, userId, upvotes, hasupVoted, downvotes, hasdownVo
 					path: pathname,
 				})
 			} else if (type === 'Answer') {
-				// await upvoteAnswer({ 
-				// 	answerId: JSON.parse(itemId),
-				// 	userId: JSON.parse(userId),
-				// 	hasupVoted,
-				// 	hasdownVoted,
-				// 	path: pathname,
-				// })
+				await upvoteAnswer({ 
+					answerId: JSON.parse(itemId),
+					userId: JSON.parse(userId),
+					hasupVoted,
+					hasdownVoted,
+					path: pathname,
+				})
 			}
             
 		} 
@@ -58,13 +58,13 @@ const Votes = ({ type, itemId, userId, upvotes, hasupVoted, downvotes, hasdownVo
 					path: pathname,
 				})
 			} else if (type === 'Answer') {
-				// await downvoteAnswer({ 
-				// 	answerId: JSON.parse(itemId),
-				// 	userId: JSON.parse(userId),
-				// 	hasupVoted,
-				// 	hasdownVoted,
-				// 	path: pathname,
-				// })
+				await downvoteAnswer({ 
+					answerId: JSON.parse(itemId),
+					userId: JSON.parse(userId),
+					hasupVoted,
+					hasdownVoted,
+					path: pathname,
+				})
 			}
 	    }
 	}
