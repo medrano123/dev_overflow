@@ -20,6 +20,7 @@ const StatsCard = ({ imgUrl, value, title }: StatsCardProps) => {
 		</div>
 	)
 }
+
 interface Props {
     totalQuestions: number
     totalAnswers: number
