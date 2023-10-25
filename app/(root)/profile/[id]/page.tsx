@@ -7,9 +7,11 @@ import { URLProps } from '@/types'
 import Stats from '@/components/shared/Stats'
 import { getUserInfo } from '@/lib/actions/user.actions'
 import { Button } from '@/components/ui/button'
+import QuestionTab from '@/components/shared/search/QuestionTab'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { getJoinedDate } from '@/lib/utils'
 import ProfileLink from '@/components/shared/ProfileLink'
+import AnswersTab from '@/components/shared/AnswersTab'
 
 
 const Page = async ({ params, searchParams }: URLProps) => {
@@ -71,7 +73,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
 				</div>
 			</div>
 			<Stats
-			        totalQuestions={userInfo.totalQuestions}
+			    totalQuestions={userInfo.totalQuestions}
 				totalAnswers={userInfo.totalAnswers}
 			/>
 			<div className="mt-10 flex gap-10">
@@ -80,19 +82,19 @@ const Page = async ({ params, searchParams }: URLProps) => {
 						<TabsTrigger value="top-posts" className="tab">Top Posts</TabsTrigger>
 						<TabsTrigger value="answers" className="tab">Answers</TabsTrigger>
 					</TabsList>
-					<TabsContent value="top-posts">
-						{/* <QuestionTab 
+					<TabsContent value="top-posts" className="flex w-full flex-col gap-6">
+						<QuestionTab 
 							searchParams={searchParams}
 							userId={userInfo.user._id}
 							clerkId={clerkId}
-						/> */}
+						/>
 					</TabsContent>
 					<TabsContent value="answers" className="flex w-full flex-col gap-6">
-						{/* <AnswersTab 
+						<AnswersTab 
 							searchParams={searchParams}
 							userId={userInfo.user._id}
 							clerkId={clerkId}
-						/> */}
+						/>
 					</TabsContent>
 				</Tabs>
 			</div>
