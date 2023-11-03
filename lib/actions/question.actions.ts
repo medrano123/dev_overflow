@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { FilterQuery } from "mongoose";
 
 import { connectToDatabase } from "../mongoose";
 import Question from "@/database/question.model";
@@ -53,7 +54,6 @@ export async function createQuestion(params: CreateQuestionParams){
 export async function getAllQuestions( params : GetQuestionsParams) {
 	try {
 		connectToDatabase()
-        
 		const questions = await Question.find({})
 			.populate({ path: 'tags', model: Tag })
 			.populate({ path: 'author', model: User })
@@ -62,6 +62,49 @@ export async function getAllQuestions( params : GetQuestionsParams) {
 	} catch (error) {
 		console.log(error)
 		throw Error
+	}
+}
+
+export async function getQuestions(params: GetQuestionsParams) {
+	try {
+		connectToDatabase();
+	
+		const { searchQuery, filter } = params;
+	
+		const query: FilterQuery<typeof Question> = {};
+	
+		if(searchQuery) {
+			query.$or = [
+				{ title: { $regex: new RegExp(searchQuery, "i")}},
+				{ content: { $regex: new RegExp(searchQuery, "i")}},
+			]
+		}
+  
+		let sortOptions = {};
+	
+		switch (filter) {
+		case "newest":
+			sortOptions = { createdAt: - 1 }
+			break;
+		case "frequent":
+			sortOptions = { views: -1 }
+			break;
+		case "unanswered":
+			query.answers = { $size: 0 }
+			break;
+		default:
+			break;
+		}
+  
+		const questions = await Question.find(query)
+			.populate({ path: 'tags', model: Tag })
+			.populate({ path: 'author', model: User })
+			.sort(sortOptions)
+	
+		return { questions };
+	} catch (error) {
+		console.log(error)
+		throw error;
 	}
 }
 

@@ -7,13 +7,17 @@ import { HomePageFilters } from '@/constants/filters'
 import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
-import { getAllQuestions } from "@/lib/actions/question.actions";
+import { getQuestions } from "@/lib/actions/question.actions";
+import { SearchParamsProps } from "@/types";
 
 
  
-export default async function Home() {
-	const result = await getAllQuestions({})
-	
+export default async function Home({ searchParams }: SearchParamsProps) {
+	const result = await getQuestions({
+		searchQuery: searchParams.q,
+		filter: searchParams.filter,
+	});
+
 	return (
 		<>
 			<div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
