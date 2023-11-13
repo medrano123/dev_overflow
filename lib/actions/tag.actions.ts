@@ -26,46 +26,45 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 
 export async function getAllTags(params: GetAllTagsParams) {
 	try {
-		connectToDatabase();
-	
-		const { searchQuery, filter } = params;
-	
-		const query: FilterQuery<typeof Tag> = {};
-	
-		if(searchQuery) {
-			query.$or = [{name: { $regex: new RegExp(searchQuery, 'i')}}]
-		}
+	  connectToDatabase();
   
-		let sortOptions = {};
-	
-		switch (filter) {
+	  const { searchQuery, filter } = params;
+  
+	  const query: FilterQuery<typeof Tag> = {};
+  
+	  if(searchQuery) {
+			query.$or = [{name: { $regex: new RegExp(searchQuery, 'i')}}]
+	  }
+  
+	  let sortOptions = {};
+  
+	  switch (filter) {
 		case "popular":
-			sortOptions = { questions: -1 }
-			break;
+		  sortOptions = { questions: -1 }
+		  break;
 		case "recent":
-			sortOptions = { createdAt: -1 }
-			break;
+		  sortOptions = { createdAt: -1 }
+		  break;
 		case "name":
-			sortOptions = { name: 1 }
-			break;
+		  sortOptions = { name: 1 }
+		  break;
 		case "old":
-			sortOptions = { createdAt: 1 }
-			break;
-		
+		  sortOptions = { createdAt: 1 }
+		  break;
+	  
 		default:
-			break;
-		}
-	
-		const tags = await Tag.find(query)
+		  break;
+	  }
+  
+	  const tags = await Tag.find(query)
 			.sort(sortOptions)
-	
-		return { tags }
+  
+	  return { tags }
 	} catch (error) {
-		console.log(error);
-		throw error;
+	  console.log(error);
+	  throw error;
 	}
 }
-  
 
 export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 	try {
